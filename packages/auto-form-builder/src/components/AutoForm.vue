@@ -192,6 +192,7 @@ const props = defineProps<{
       pattern?: string;
     }>;
   }>;
+  submitUrl?: string;
 }>();
 
 const emit = defineEmits<{
@@ -256,9 +257,30 @@ function handleSubmit() {
       }
     }
   }
-
   if (Object.keys(errors.value).length === 0) {
-    emit("submit", formData);
+    if (props.submitUrl) {
+      fetch(props.submitUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then(async (res) => {
+          if (!res.ok) {
+            const errorText = await res.text();
+            throw new Error(`فشل الإرسال: ${errorText}`);
+          }
+          const result = await res.json();
+          emit("submit", result);
+        })
+        .catch((err) => {
+          console.error("خطأ في الإرسال:", err);
+          errors.value.form = "فشل إرسال البيانات. يرجى المحاولة لاحقًا.";
+        });
+    } else {
+      emit("submit", formData);
+    }
   }
 }
 </script>
