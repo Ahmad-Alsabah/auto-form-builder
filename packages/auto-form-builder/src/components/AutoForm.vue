@@ -23,6 +23,33 @@
         class="border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
       />
 
+      <textarea
+        v-else-if="field.type === 'textarea'"
+        :id="field.name"
+        v-model="formData[field.name]"
+        :required="field.required"
+        rows="4"
+        class="border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400 resize-y"
+      />
+
+      <input
+        v-else-if="field.type === 'number'"
+        type="number"
+        :id="field.name"
+        v-model="formData[field.name]"
+        :required="field.required"
+        class="border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+      />
+
+      <input
+        v-else-if="field.type === 'date'"
+        type="date"
+        :id="field.name"
+        v-model="formData[field.name]"
+        :required="field.required"
+        class="border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+      />
+
       <select
         v-else-if="field.type === 'select'"
         :id="field.name"

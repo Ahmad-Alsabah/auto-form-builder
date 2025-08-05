@@ -20,6 +20,9 @@ const submitted = ref(null);
 const formSchema = [
   { name: "fullName", label: "الاسم الكامل", type: "text", required: true },
   { name: "email", label: "البريد الإلكتروني", type: "email", required: true },
+  { name: "bio", label: "نبذة عنك", type: "textarea" },
+  { name: "age", label: "العمر", type: "number", required: true },
+  { name: "birthdate", label: "تاريخ الميلاد", type: "date" },
   {
     name: "gender",
     label: "الجنس",
