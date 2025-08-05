@@ -1,6 +1,7 @@
 # 🧱 vue-auto-form-builder
 
-[![npm](https://img.shields.io/npm/v/vue-auto-form-builder)](https://www.npmjs.com/package/vue-auto-form-builder)
+[![npm](https://img.shields.io/npm/v/vue-auto-form-builder)](https://www.npmjs.com/package/auto-form-builder
+)
 
 A smart and fully customizable Vue 3 component to auto-generate forms using a simple JSON schema.  
 Supports **RTL**, **Dark Mode**, **themes**, **sections**, **validation**, **i18n**, and more — all out of the box ⚡️
@@ -117,4 +118,4 @@ npm publish
 
 ## 📜 License
 
-[MIT](LICENSE)
+(LICENSE)
