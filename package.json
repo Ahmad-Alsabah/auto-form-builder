@@ -1,12 +1,37 @@
 {
   "name": "auto-form-builder",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "🧱 Vue Auto Form Builder with schema-based generation, themes, validation and localization.",
+  "main": "dist/auto-form-builder.umd.js",
+  "module": "dist/auto-form-builder.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "index.ts"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "vite build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "keywords": [
+    "vue",
+    "form",
+    "auto",
+    "form-builder",
+    "tailwind",
+    "vue3",
+    "component",
+    "dynamic-forms"
+  ],
+  "author": "Ahmad Alsabah",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "vue": "^3.4.0",
+    "vite": "^5.0.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  }
 }
