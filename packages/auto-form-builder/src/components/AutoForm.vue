@@ -2,6 +2,7 @@
   <form
     @submit.prevent="handleSubmit"
     class="max-w-md mx-auto space-y-4"
+    :class="themeConfig?.form"
     dir="rtl"
   >
     <div
@@ -11,7 +12,10 @@
     >
       <h2
         v-if="group.section"
-        class="text-xl font-bold mb-2 dark:text-white border-b pb-1"
+        :class="
+          themeConfig?.sectionTitle ||
+          'text-xl font-bold mb-2 dark:text-white border-b pb-1'
+        "
       >
         {{ group.section }}
       </h2>
@@ -28,43 +32,48 @@
             field.type !== 'switch'
           "
           :for="field.name"
-          class="font-medium dark:text-white"
+          :class="themeConfig?.label || 'font-medium dark:text-white'"
         >
           {{ field.label }}
           <span v-if="field.required" class="text-red-500">*</span>
         </label>
 
+        <!-- TEXT & EMAIL -->
         <input
           v-if="field.type === 'text' || field.type === 'email'"
           :type="field.type"
           :id="field.name"
           v-model="formData[field.name]"
           :required="field.required"
-          class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
+          :class="themeConfig?.input || inputClass"
         />
 
+        <!-- PASSWORD -->
         <input
           v-else-if="field.type === 'password'"
           type="password"
           :id="field.name"
           v-model="formData[field.name]"
           :required="field.required"
-          class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
+          :class="themeConfig?.input || inputClass"
         />
 
+        <!-- FILE -->
         <input
           v-else-if="field.type === 'file'"
           type="file"
           :id="field.name"
           @change="handleFileUpload(field.name, $event)"
           :required="field.required"
-          class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
+          :class="themeConfig?.input || inputClass"
         />
 
+        <!-- RADIO -->
         <div v-else-if="field.type === 'radio'" class="flex flex-col gap-1">
-          <label class="font-medium dark:text-white mb-1">{{
-            field.label
-          }}</label>
+          <label
+            :class="themeConfig?.label || 'font-medium dark:text-white mb-1'"
+            >{{ field.label }}</label
+          >
           <div
             v-for="option in field.options"
             :key="option"
@@ -80,13 +89,14 @@
             />
             <label
               :for="`${field.name}-${option}`"
-              class="text-sm dark:text-white"
+              :class="themeConfig?.radioLabel || 'text-sm dark:text-white'"
             >
               {{ option }}
             </label>
           </div>
         </div>
 
+        <!-- SWITCH -->
         <div
           v-else-if="field.type === 'switch'"
           class="flex items-center gap-2"
@@ -98,44 +108,51 @@
             :required="field.required"
             class="accent-blue-600"
           />
-          <label :for="field.name" class="text-sm dark:text-white">
+          <label
+            :for="field.name"
+            :class="themeConfig?.switchLabel || 'text-sm dark:text-white'"
+          >
             {{ field.label }}
           </label>
         </div>
 
+        <!-- TEXTAREA -->
         <textarea
           v-else-if="field.type === 'textarea'"
           :id="field.name"
           v-model="formData[field.name]"
           :required="field.required"
           rows="4"
-          class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400 resize-y"
+          :class="themeConfig?.textarea || inputClass + ' resize-y'"
         />
 
+        <!-- NUMBER -->
         <input
           v-else-if="field.type === 'number'"
           type="number"
           :id="field.name"
           v-model="formData[field.name]"
           :required="field.required"
-          class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
+          :class="themeConfig?.input || inputClass"
         />
 
+        <!-- DATE -->
         <input
           v-else-if="field.type === 'date'"
           type="date"
           :id="field.name"
           v-model="formData[field.name]"
           :required="field.required"
-          class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
+          :class="themeConfig?.input || inputClass"
         />
 
+        <!-- SELECT -->
         <select
           v-else-if="field.type === 'select'"
           :id="field.name"
           v-model="formData[field.name]"
           :required="field.required"
-          class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
+          :class="themeConfig?.input || inputClass"
         >
           <option disabled value="">اختر...</option>
           <option v-for="option in field.options" :key="option" :value="option">
@@ -143,6 +160,7 @@
           </option>
         </select>
 
+        <!-- CHECKBOX -->
         <div
           v-else-if="field.type === 'checkbox'"
           class="flex items-center gap-2"
@@ -154,7 +172,10 @@
             :required="field.required"
             class="accent-blue-600"
           />
-          <label :for="field.name" class="text-sm dark:text-white">
+          <label
+            :for="field.name"
+            :class="themeConfig?.checkboxLabel || 'text-sm dark:text-white'"
+          >
             {{ field.label }}
             <span v-if="field.required" class="text-red-500">*</span>
           </label>
@@ -168,7 +189,10 @@
 
     <button
       type="submit"
-      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded dark:bg-blue-500 dark:hover:bg-blue-600"
+      :class="
+        themeConfig?.submitButton ||
+        'bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded dark:bg-blue-500 dark:hover:bg-blue-600'
+      "
     >
       إرسال
     </button>
@@ -193,11 +217,19 @@ const props = defineProps<{
     }>;
   }>;
   submitUrl?: string;
+  themeConfig?: Record<string, string>;
 }>();
 
 const emit = defineEmits<{
   (e: "submit", payload: Record<string, any>): void;
 }>();
+
+const formData = reactive<Record<string, any>>({});
+const errors = ref<Record<string, string>>({});
+
+const inputClass =
+  "border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400";
+
 function handleFileUpload(fieldName: string, event: Event) {
   const target = event.target as HTMLInputElement;
   if (target?.files?.length) {
@@ -205,11 +237,10 @@ function handleFileUpload(fieldName: string, event: Event) {
   }
 }
 
-const formData = reactive<Record<string, any>>({});
-const errors = ref<Record<string, string>>({});
-
-props.schema.forEach((field) => {
-  formData[field.name] = field.type === "checkbox" ? false : "";
+props.schema.forEach((group) => {
+  group.fields.forEach((field) => {
+    formData[field.name] = field.type === "checkbox" ? false : "";
+  });
 });
 
 function handleSubmit() {
@@ -221,17 +252,17 @@ function handleSubmit() {
       const isEmpty = field.type === "checkbox" ? !value : value === "";
 
       if (field.required && isEmpty) {
-        errors.value[field.name] = "هذا الحقل مطلوب";
+        errors.value[field.name] = t("required");
         continue;
       }
 
       if (field.type === "number") {
         const numValue = Number(value);
         if (field.min !== undefined && numValue < field.min) {
-          errors.value[field.name] = `القيمة يجب أن تكون ≥ ${field.min}`;
+          errors.value[field.name] = t("minValue", field.min);
         }
         if (field.max !== undefined && numValue > field.max) {
-          errors.value[field.name] = `القيمة يجب أن تكون ≤ ${field.max}`;
+          errors.value[field.name] = t("maxValue", field.max);
         }
       }
 
@@ -243,20 +274,21 @@ function handleSubmit() {
       ) {
         const length = String(value).length;
         if (field.min !== undefined && length < field.min) {
-          errors.value[field.name] = `الطول ≥ ${field.min} أحرف`;
+          errors.value[field.name] = t("minLength", field.min);
         }
         if (field.max !== undefined && length > field.max) {
-          errors.value[field.name] = `الطول ≤ ${field.max} حرف`;
+          errors.value[field.name] = t("maxLength", field.max);
         }
         if (field.pattern) {
           const regex = new RegExp(field.pattern);
           if (!regex.test(String(value))) {
-            errors.value[field.name] = "القيمة لا تطابق النمط المطلوب";
+            errors.value[field.name] = t("pattern");
           }
         }
       }
     }
   }
+
   if (Object.keys(errors.value).length === 0) {
     if (props.submitUrl) {
       fetch(props.submitUrl, {
@@ -269,14 +301,15 @@ function handleSubmit() {
         .then(async (res) => {
           if (!res.ok) {
             const errorText = await res.text();
-            throw new Error(`فشل الإرسال: ${errorText}`);
+            throw new Error(errorText);
           }
           const result = await res.json();
           emit("submit", result);
         })
         .catch((err) => {
           console.error("خطأ في الإرسال:", err);
-          errors.value.form = "فشل إرسال البيانات. يرجى المحاولة لاحقًا.";
+          errors.value.form =
+            t("submitFailed") || "فشل إرسال البيانات. يرجى المحاولة لاحقًا.";
         });
     } else {
       emit("submit", formData);
