@@ -19,21 +19,35 @@ const submitted = ref(null);
 
 const formSchema = [
   {
-    name: "username",
-    label: "اسم المستخدم",
-    type: "text",
-    required: true,
-    min: 3,
-    max: 12,
-    pattern: "^[a-zA-Z0-9_]+$",
+    section: "معلومات الحساب",
+    fields: [
+      {
+        name: "username",
+        label: "اسم المستخدم",
+        type: "text",
+        required: true,
+        min: 3,
+      },
+      {
+        name: "password",
+        label: "كلمة المرور",
+        type: "password",
+        required: true,
+      },
+    ],
   },
   {
-    name: "age",
-    label: "العمر",
-    type: "number",
-    required: true,
-    min: 18,
-    max: 60,
+    section: "البيانات الشخصية",
+    fields: [
+      { name: "age", label: "العمر", type: "number", min: 18, max: 60 },
+      {
+        name: "gender",
+        label: "الجنس",
+        type: "radio",
+        options: ["ذكر", "أنثى"],
+        required: true,
+      },
+    ],
   },
 ];
 
