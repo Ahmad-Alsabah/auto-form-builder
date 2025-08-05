@@ -6,7 +6,11 @@
   >
     <div v-for="field in schema" :key="field.name" class="flex flex-col gap-1">
       <label
-        v-if="field.type !== 'checkbox'"
+        v-if="
+          field.type !== 'checkbox' &&
+          field.type !== 'radio' &&
+          field.type !== 'switch'
+        "
         :for="field.name"
         class="font-medium dark:text-white"
       >
@@ -22,6 +26,63 @@
         :required="field.required"
         class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
       />
+
+      <input
+        v-else-if="field.type === 'password'"
+        type="password"
+        :id="field.name"
+        v-model="formData[field.name]"
+        :required="field.required"
+        class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
+      />
+
+      <input
+        v-else-if="field.type === 'file'"
+        type="file"
+        :id="field.name"
+        @change="handleFileUpload(field.name, $event)"
+        :required="field.required"
+        class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
+      />
+
+      <div v-else-if="field.type === 'radio'" class="flex flex-col gap-1">
+        <label class="font-medium dark:text-white mb-1">{{
+          field.label
+        }}</label>
+        <div
+          v-for="option in field.options"
+          :key="option"
+          class="flex items-center gap-2"
+        >
+          <input
+            type="radio"
+            :id="`${field.name}-${option}`"
+            :value="option"
+            :name="field.name"
+            v-model="formData[field.name]"
+            :required="field.required"
+          />
+          <label
+            :for="`${field.name}-${option}`"
+            class="text-sm dark:text-white"
+          >
+            {{ option }}
+          </label>
+        </div>
+      </div>
+
+      <div v-else-if="field.type === 'switch'" class="flex items-center gap-2">
+        <input
+          type="checkbox"
+          :id="field.name"
+          v-model="formData[field.name]"
+          :required="field.required"
+          class="accent-blue-600"
+        />
+        <label :for="field.name" class="text-sm dark:text-white">
+          {{ field.label }}
+        </label>
+      </div>
 
       <textarea
         v-else-if="field.type === 'textarea'"
@@ -110,6 +171,12 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: "submit", payload: Record<string, any>): void;
 }>();
+function handleFileUpload(fieldName: string, event: Event) {
+  const target = event.target as HTMLInputElement;
+  if (target?.files?.length) {
+    formData[fieldName] = target.files[0];
+  }
+}
 
 const formData = reactive<Record<string, any>>({});
 const errors = ref<Record<string, string>>({});

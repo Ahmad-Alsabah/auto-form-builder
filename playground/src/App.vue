@@ -18,24 +18,17 @@ import { AutoForm } from "auto-form-builder";
 const submitted = ref(null);
 
 const formSchema = [
-  { name: "fullName", label: "الاسم الكامل", type: "text", required: true },
-  { name: "email", label: "البريد الإلكتروني", type: "email", required: true },
-  { name: "bio", label: "نبذة عنك", type: "textarea" },
-  { name: "age", label: "العمر", type: "number", required: true },
-  { name: "birthdate", label: "تاريخ الميلاد", type: "date" },
+  { name: "username", label: "اسم المستخدم", type: "text", required: true },
+  { name: "password", label: "كلمة المرور", type: "password", required: true },
   {
     name: "gender",
     label: "الجنس",
-    type: "select",
+    type: "radio",
     options: ["ذكر", "أنثى"],
     required: true,
   },
-  {
-    name: "terms",
-    label: "أوافق على الشروط",
-    type: "checkbox",
-    required: true,
-  },
+  { name: "profilePic", label: "الصورة الشخصية", type: "file" },
+  { name: "subscribe", label: "اشترك في النشرة", type: "switch" },
 ];
 
 function handleSubmit(data: Record<string, any>) {
