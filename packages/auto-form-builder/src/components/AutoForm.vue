@@ -2,7 +2,8 @@
   <form @submit.prevent="handleSubmit">
     <div v-for="field in schema" :key="field.name" class="mb-4">
       <label :for="field.name" class="block font-medium mb-1">
-        {{ field.label }} <span v-if="field.required" class="text-red-500">*</span>
+        {{ field.label }}
+        <span v-if="field.required" class="text-red-500">*</span>
       </label>
 
       <input
@@ -38,7 +39,6 @@
         <label :for="field.name">{{ field.label }}</label>
       </div>
 
-      <!-- Add error message placeholder -->
       <p v-if="errors[field.name]" class="text-red-500 text-sm mt-1">
         {{ errors[field.name] }}
       </p>
@@ -51,42 +51,41 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, watch, defineProps, defineEmits } from 'vue'
+import { reactive, ref, watch, defineProps, defineEmits } from "vue";
 
 const props = defineProps<{
   schema: Array<{
-    name: string
-    label: string
-    type: string
-    required?: boolean
-    options?: string[]
-  }>
-}>()
+    name: string;
+    label: string;
+    type: string;
+    required?: boolean;
+    options?: string[];
+  }>;
+}>();
 
 const emit = defineEmits<{
-  (e: 'submit', payload: Record<string, any>): void
-}>()
+  (e: "submit", payload: Record<string, any>): void;
+}>();
 
-const formData = reactive<Record<string, any>>({})
-const errors = ref<Record<string, string>>({})
+const formData = reactive<Record<string, any>>({});
+const errors = ref<Record<string, string>>({});
 
-// initialize formData
 props.schema.forEach((field) => {
   formData[field.name] =
-    field.type === 'checkbox' ? false : field.type === 'select' ? '' : ''
-})
+    field.type === "checkbox" ? false : field.type === "select" ? "" : "";
+});
 
 function handleSubmit() {
-  errors.value = {}
+  errors.value = {};
 
   for (const field of props.schema) {
     if (field.required && !formData[field.name]) {
-      errors.value[field.name] = 'هذا الحقل مطلوب'
+      errors.value[field.name] = "هذا الحقل مطلوب";
     }
   }
 
   if (Object.keys(errors.value).length === 0) {
-    emit('submit', formData)
+    emit("submit", formData);
   }
 }
 </script>
