@@ -165,6 +165,9 @@ const props = defineProps<{
     type: string;
     required?: boolean;
     options?: string[];
+    min?: number;
+    max?: number;
+    pattern?: string;
   }>;
 }>();
 
@@ -194,6 +197,47 @@ function handleSubmit() {
 
     if (field.required && isEmpty) {
       errors.value[field.name] = "هذا الحقل مطلوب";
+      continue;
+    }
+
+    if (field.type === "number") {
+      const numValue = Number(value);
+      if (field.min !== undefined && numValue < field.min) {
+        errors.value[
+          field.name
+        ] = `القيمة يجب أن تكون أكبر أو تساوي ${field.min}`;
+      }
+      if (field.max !== undefined && numValue > field.max) {
+        errors.value[
+          field.name
+        ] = `القيمة يجب أن تكون أقل أو تساوي ${field.max}`;
+      }
+    }
+
+    if (
+      field.type === "text" ||
+      field.type === "email" ||
+      field.type === "textarea" ||
+      field.type === "password"
+    ) {
+      const length = String(value).length;
+
+      if (field.min !== undefined && length < field.min) {
+        errors.value[
+          field.name
+        ] = `يجب أن يكون الطول ${field.min} أحرف على الأقل`;
+      }
+
+      if (field.max !== undefined && length > field.max) {
+        errors.value[field.name] = `يجب ألا يتجاوز الطول ${field.max} حرف`;
+      }
+
+      if (field.pattern) {
+        const regex = new RegExp(field.pattern);
+        if (!regex.test(String(value))) {
+          errors.value[field.name] = "القيمة لا تطابق النمط المطلوب";
+        }
+      }
     }
   }
 
