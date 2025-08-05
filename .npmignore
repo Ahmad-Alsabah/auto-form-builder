@@ -1,0 +1,10 @@
+examples/
+.vscode/
+*.log
+*.sh
+
+.gitignore
+
+vite.config.*
+node_modules/
+dist/*.map
