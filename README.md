@@ -117,8 +117,5 @@ npm publish
 ---
 
 ## 📜 License
-
-## 📜 License
-
-This project is licensed under the [LICENSE](./LICENSE) file.
+[LICENSE](License) 
 
