@@ -8,7 +8,7 @@
       <label
         v-if="field.type !== 'checkbox'"
         :for="field.name"
-        class="font-medium"
+        class="font-medium dark:text-white"
       >
         {{ field.label }}
         <span v-if="field.required" class="text-red-500">*</span>
@@ -20,7 +20,7 @@
         :id="field.name"
         v-model="formData[field.name]"
         :required="field.required"
-        class="border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+        class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
       />
 
       <textarea
@@ -29,7 +29,7 @@
         v-model="formData[field.name]"
         :required="field.required"
         rows="4"
-        class="border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400 resize-y"
+        class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400 resize-y"
       />
 
       <input
@@ -38,7 +38,7 @@
         :id="field.name"
         v-model="formData[field.name]"
         :required="field.required"
-        class="border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+        class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
       />
 
       <input
@@ -47,7 +47,7 @@
         :id="field.name"
         v-model="formData[field.name]"
         :required="field.required"
-        class="border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+        class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
       />
 
       <select
@@ -55,7 +55,7 @@
         :id="field.name"
         v-model="formData[field.name]"
         :required="field.required"
-        class="border rounded px-3 py-2 focus:outline-none focus:ring focus:border-blue-400"
+        class="border rounded px-3 py-2 bg-white text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 focus:outline-none focus:ring focus:border-blue-400"
       >
         <option disabled value="">اختر...</option>
         <option v-for="option in field.options" :key="option" :value="option">
@@ -72,8 +72,9 @@
           :id="field.name"
           v-model="formData[field.name]"
           :required="field.required"
+          class="accent-blue-600"
         />
-        <label :for="field.name" class="text-sm">
+        <label :for="field.name" class="text-sm dark:text-white">
           {{ field.label }}
           <span v-if="field.required" class="text-red-500">*</span>
         </label>
@@ -86,7 +87,7 @@
 
     <button
       type="submit"
-      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded dark:bg-blue-500 dark:hover:bg-blue-600"
     >
       إرسال
     </button>
@@ -114,8 +115,7 @@ const formData = reactive<Record<string, any>>({});
 const errors = ref<Record<string, string>>({});
 
 props.schema.forEach((field) => {
-  formData[field.name] =
-    field.type === "checkbox" ? false : field.type === "select" ? "" : "";
+  formData[field.name] = field.type === "checkbox" ? false : "";
 });
 
 function handleSubmit() {
