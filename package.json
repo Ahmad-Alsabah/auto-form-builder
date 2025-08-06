@@ -1,6 +1,6 @@
 {
   "name": "auto-form-builder",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "🧱 Vue Auto Form Builder with schema-based generation, themes, validation and localization.",
   "main": "dist/auto-form-builder.umd.js",
   "module": "dist/auto-form-builder.es.js",
