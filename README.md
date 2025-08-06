@@ -116,5 +116,10 @@ npm publish
 ---
 
 ## 📜 License
+<<<<<<< HEAD
 
 [LICENSE](License)
+=======
+[LICENSE](License) 
+
+>>>>>>> 65fd119ccfbaa2e0148e9167ce825cfdc789f603
